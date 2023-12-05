@@ -2,9 +2,6 @@ package cs1302.api;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -45,6 +42,9 @@ public class ApiApp extends Application {
     Label newsLabel;
 
     ScrollPane scrollPane;
+
+    private final StockInfo infoGetter = new StockInfo();
+
 
     /**
      * Constructs an {@code ApiApp} object. This default (i.e., no argument)
@@ -157,6 +157,11 @@ public class ApiApp extends Application {
     public void handleGoButton() {
          String stock = choiceBox.getValue();
          topLabel.setText("Showing results for: $" + stock);
+
+         String stockName = infoGetter.getStockName(stock);
+         stockNameLabel.setText("Stock Name: \n" + stockName);
+         stockNameLabel.setWrapText(true);
+
     } // handleGoButton
 
 } // ApiApp
