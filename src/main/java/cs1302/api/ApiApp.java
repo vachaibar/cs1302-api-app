@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
 import javafx.geometry.Insets;
+import javafx.scene.control.ScrollPane;
 
 /**
  * REPLACE WITH NON-SHOUTING DESCRIPTION OF YOUR APP.
@@ -31,6 +32,19 @@ public class ApiApp extends Application {
 
     VBox labelBox;
     Label topLabel;
+
+    VBox mainBox;
+    HBox peersAndLastBox;
+    HBox peersBox;
+    Label peersLabel;
+    HBox lastTradeBox;
+    Label lastTradeLabel;
+    HBox stockName;
+    Label stockNameLabel;
+    HBox newsBox;
+    Label newsLabel;
+
+    ScrollPane scrollPane;
 
     /**
      * Constructs an {@code ApiApp} object. This default (i.e., no argument)
@@ -74,7 +88,49 @@ public class ApiApp extends Application {
         topLabel.setPadding(new Insets(8));
         labelBox.getChildren().addAll(topLabel);
 
-        root.getChildren().addAll(topBox, labelBox);
+        mainBox = new VBox();
+
+        peersAndLastBox = new HBox();
+
+        stockName = new HBox();
+        stockNameLabel = new Label("Stock Name: ");
+        stockName.setPrefHeight(300);
+        stockName.setPrefWidth(200);
+        stockName.setStyle("-fx-background-color: #f6ad73");
+        stockName.getChildren().add(stockNameLabel);
+
+        lastTradeBox = new HBox();
+        lastTradeLabel = new Label("Last Trade: ");
+        lastTradeBox.setPrefHeight(300);
+        lastTradeBox.setPrefWidth(200);
+        lastTradeBox.setStyle("-fx-background-color: #b3eea6");
+        lastTradeBox.getChildren().add(lastTradeLabel);
+
+        peersBox = new HBox();
+        peersLabel = new Label("Company Peers: ");
+        peersBox.setPrefHeight(300);
+        peersBox.setPrefWidth(200);
+        peersBox.setStyle("-fx-background-color: #ff98fb");
+        peersBox.getChildren().add(peersLabel);
+
+        peersAndLastBox.getChildren().addAll(stockName, lastTradeBox, peersBox);
+
+        newsBox = new HBox();
+        newsLabel = new Label("News: ");
+        newsBox.setFillHeight(true);
+        newsBox.setMinHeight(300);
+        newsBox.setPrefWidth(700);
+        newsBox.setStyle("-fx-background-color: #a6caee");
+        newsBox.getChildren().addAll(newsLabel);
+
+        scrollPane = new ScrollPane(newsBox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(200);
+        scrollPane.setPrefWidth(300);
+
+        mainBox.getChildren().addAll(peersAndLastBox, scrollPane);
+
+        root.getChildren().addAll(topBox, labelBox, mainBox);
     } // ApiApp
 
     /** {@inheritDoc} */
