@@ -147,6 +147,7 @@ public class ApiApp extends Application {
         stockNameLabel.setWrapText(true);
 
         getLastTrade(stock);
+        getPeerCompanies(stock);
     } // handleGoButton
 
     /**
@@ -183,5 +184,40 @@ public class ApiApp extends Application {
             e.printStackTrace();
         } // try
     } // getLastTrade
+
+    /**
+     * Gets the peer companies from the finnhub api.
+     *
+     * @param stock - the stock to get peer companies for
+     */
+    public void getPeerCompanies(String stock) {
+        String API_KEY = "clj21tpr01qsgccbq250clj21tpr01qsgccbq25g";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://finnhub.io/api/v1/stock/peers?symbol=" +
+            stock + "&token=" + API_KEY))
+            .build();
+
+        try {
+            HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                String peersData = response.body()
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace(",", "\n");
+
+                Platform.runLater(() -> {
+                    peersLabel.setText("Company Peers: \n" + peersData);
+                    peersLabel.setWrapText(true);
+                });
+            } else {
+                peersLabel.setText("HTTP error code: " + response.statusCode());
+            } // else
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } // try
+    } // getPeerCompanies
 
 } // ApiApp
