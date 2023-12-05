@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Button;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Label;
+import javafx.geometry.Insets;
 
 /**
  * REPLACE WITH NON-SHOUTING DESCRIPTION OF YOUR APP.
@@ -26,6 +28,9 @@ public class ApiApp extends Application {
     HBox topBox;
     ChoiceBox<String> choiceBox;
     Button goButton;
+
+    VBox labelBox;
+    Label topLabel;
 
     /**
      * Constructs an {@code ApiApp} object. This default (i.e., no argument)
@@ -63,7 +68,13 @@ public class ApiApp extends Application {
 
         topBox.getChildren().addAll(choiceBox, sep, goButton);
 
-        root.getChildren().addAll(topBox);
+        labelBox = new VBox(0);
+        topBox.setPadding(new Insets(10));
+        topLabel = new Label("Choose a stock and then press Go! ");
+        topLabel.setPadding(new Insets(8));
+        labelBox.getChildren().addAll(topLabel);
+
+        root.getChildren().addAll(topBox, labelBox);
     } // ApiApp
 
     /** {@inheritDoc} */
@@ -89,6 +100,7 @@ public class ApiApp extends Application {
      */
     public void handleGoButton() {
          String stock = choiceBox.getValue();
+         topLabel.setText("Showing results for: $" + stock);
     } // handleGoButton
 
 } // ApiApp
