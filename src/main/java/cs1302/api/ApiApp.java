@@ -1,5 +1,11 @@
 package cs1302.api;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
@@ -52,69 +58,48 @@ public class ApiApp extends Application {
      */
     public ApiApp() {
         root = new VBox();
-
         sep = new Separator();
         sep.setStyle("-fx-padding: 10px");
-
         topBox = new HBox(0);
         choiceBox = new ChoiceBox<>();
         choiceBox.setItems(FXCollections.observableArrayList(
-            "AAPL", "MSFT", "GOOGL", "AMZN",
-            "NVDA", "META", "BRK-A",
-            "TSLA", "LLY", "V",
-            "TSM", "UNH", "JPM",
-            "WMT", "XOM", "AVGO",
-            "MA", "JNJ", "NVO",
-            "PG", "ORCL", "HD",
-            "ADBE", "CVX", "ASML",
-            "CSCO", "MRK", "KO", "TM",
-            "ABBV", "SNY", "BAC", "PEP",
-            "ANC", "CRM", "NFLX", "MCD",
-            "NVS", "LIN", "AMD", "AZN",
-            "BABA", "CSCO", "TMO", "INTC",
-            "SAP", "ABT", "DIS", "TMUS",
-            "PFE"));
+            "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "BRK-A", "TSLA", "LLY", "V",
+            "TSM", "UNH", "JPM", "WMT", "XOM", "AVGO", "MA", "JNJ", "NVO", "PG", "ORCL", "HD",
+            "ADBE", "CVX", "ASML", "CSCO", "MRK", "KO", "TM", "ABBV", "SNY", "BAC", "PEP",
+            "ANC", "CRM", "NFLX", "MCD", "NVS", "LIN", "AMD", "AZN", "BABA", "CSCO", "TMO", "INTC",
+            "SAP", "ABT", "DIS", "TMUS", "PFE"));
         choiceBox.setValue("AAPL");
         choiceBox.setPrefSize(500, 0);
         goButton = new Button("Go!");
         goButton.setPrefSize(200, 0);
         goButton.setOnAction(e -> handleGoButton());
-
         topBox.getChildren().addAll(choiceBox, sep, goButton);
-
         labelBox = new VBox(0);
         topBox.setPadding(new Insets(10));
         topLabel = new Label("Choose a stock and then press Go! ");
         topLabel.setPadding(new Insets(8));
         labelBox.getChildren().addAll(topLabel);
-
         mainBox = new VBox();
-
         peersAndLastBox = new HBox();
-
         stockName = new HBox();
         stockNameLabel = new Label("Stock Name: ");
         stockName.setPrefHeight(300);
         stockName.setPrefWidth(200);
         stockName.setStyle("-fx-background-color: #f6ad73");
         stockName.getChildren().add(stockNameLabel);
-
         lastTradeBox = new HBox();
         lastTradeLabel = new Label("Last Trade: ");
         lastTradeBox.setPrefHeight(300);
         lastTradeBox.setPrefWidth(200);
         lastTradeBox.setStyle("-fx-background-color: #b3eea6");
         lastTradeBox.getChildren().add(lastTradeLabel);
-
         peersBox = new HBox();
         peersLabel = new Label("Company Peers: ");
         peersBox.setPrefHeight(300);
         peersBox.setPrefWidth(200);
         peersBox.setStyle("-fx-background-color: #ff98fb");
         peersBox.getChildren().add(peersLabel);
-
         peersAndLastBox.getChildren().addAll(stockName, lastTradeBox, peersBox);
-
         newsBox = new HBox();
         newsLabel = new Label("News: ");
         newsBox.setFillHeight(true);
@@ -122,7 +107,6 @@ public class ApiApp extends Application {
         newsBox.setPrefWidth(700);
         newsBox.setStyle("-fx-background-color: #a6caee");
         newsBox.getChildren().addAll(newsLabel);
-
         scrollPane = new ScrollPane(newsBox);
         scrollPane.setFitToWidth(true);
         scrollPane.setPrefHeight(200);
@@ -155,13 +139,49 @@ public class ApiApp extends Application {
      * Handles the {@code goButton} action.
      */
     public void handleGoButton() {
-         String stock = choiceBox.getValue();
-         topLabel.setText("Showing results for: $" + stock);
+        String stock = choiceBox.getValue();
+        topLabel.setText("Showing results for: $" + stock);
 
-         String stockName = infoGetter.getStockName(stock);
-         stockNameLabel.setText("Stock Name: \n" + stockName);
-         stockNameLabel.setWrapText(true);
+        String stockName = infoGetter.getStockName(stock);
+        stockNameLabel.setText("Stock Name: \n" + stockName);
+        stockNameLabel.setWrapText(true);
 
+        getLastTrade(stock);
     } // handleGoButton
+
+    /**
+     * Gets the last trade information from the finage api.
+     *
+     * @param stock - the stock to get last trade information for
+     */
+    public void getLastTrade(String stock) {
+        String API_KEY = "API_KEYa7FAUEDJ1OS3EAWT5FY7TP8LSTX782YV";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.finage.co.uk/last/stock/" +
+            stock + "?apikey=" + API_KEY))
+            .build();
+
+        try {
+            HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                String tradeData = response.body()
+                    .replace("{", "")
+                    .replace("}", "")
+                    .replace(",", "\n");
+
+                Platform.runLater(() -> {
+                    lastTradeLabel.setText("Last Stock Quote: \n" + tradeData);
+                    lastTradeLabel.setWrapText(true);
+                });
+            } else {
+                lastTradeLabel.setText("HTTP error code: " + response.statusCode());
+            } // else
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } // try
+    } // getLastTrade
 
 } // ApiApp
