@@ -148,6 +148,7 @@ public class ApiApp extends Application {
 
         getLastTrade(stock);
         getPeerCompanies(stock);
+        getNews(stock);
     } // handleGoButton
 
     /**
@@ -170,6 +171,7 @@ public class ApiApp extends Application {
             if (response.statusCode() == 200) {
                 String tradeData = response.body()
                     .replace("{", "")
+                    .replace("\"", " ")
                     .replace("}", "")
                     .replace(",", "\n");
 
@@ -206,6 +208,7 @@ public class ApiApp extends Application {
                 String peersData = response.body()
                     .replace("[", "")
                     .replace("]", "")
+                    .replace("\"", " ")
                     .replace(",", "\n");
 
                 Platform.runLater(() -> {
@@ -220,4 +223,40 @@ public class ApiApp extends Application {
         } // try
     } // getPeerCompanies
 
+    /**
+     * Gets the news from the stockdata api.
+     *
+     * @param stock - the stock to get news for
+     */
+    public void getNews(String stock) {
+        String API_KEY = "oksHB7EmpVxb6HjkYxHNgltSoQDAECZLjg3chS96";
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.stockdata.org/v1/news/all?symbols=" +
+            stock + "&filter_entities=true&language=en&api_token=" + API_KEY + "&limit=2"))
+            .build();
+
+        try {
+            HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                String newsResponse = response.body()
+                    .replace("{", "")
+                    .replace("[", "")
+                    .replace("\"", " ")
+                    .replace("}", "")
+                    .replace("]", "")
+                    .replace(",", "\n");
+
+                Platform.runLater(() -> {
+                    newsLabel.setText("News \n" + newsResponse);
+                    newsLabel.setWrapText(true);
+                }); // runLater
+            } else {
+                newsLabel.setText("HTTP error code: " + response.statusCode());
+            } // else
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } // try
+    } // getNews
 } // ApiApp
