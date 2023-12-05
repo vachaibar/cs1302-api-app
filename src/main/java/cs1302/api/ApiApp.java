@@ -8,6 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Button;
+import javafx.collections.FXCollections;
 
 /**
  * REPLACE WITH NON-SHOUTING DESCRIPTION OF YOUR APP.
@@ -16,6 +21,11 @@ public class ApiApp extends Application {
     Stage stage;
     Scene scene;
     VBox root;
+    Separator sep;
+
+    HBox topBox;
+    ChoiceBox<String> choiceBox;
+    Button goButton;
 
     /**
      * Constructs an {@code ApiApp} object. This default (i.e., no argument)
@@ -23,6 +33,37 @@ public class ApiApp extends Application {
      */
     public ApiApp() {
         root = new VBox();
+
+        sep = new Separator();
+        sep.setStyle("-fx-padding: 10px");
+
+        topBox = new HBox(0);
+        choiceBox = new ChoiceBox<>();
+        choiceBox.setItems(FXCollections.observableArrayList(
+            "AAPL", "MSFT", "GOOGL", "AMZN",
+            "NVDA", "META", "BRK-A",
+            "TSLA", "LLY", "V",
+            "TSM", "UNH", "JPM",
+            "WMT", "XOM", "AVGO",
+            "MA", "JNJ", "NVO",
+            "PG", "ORCL", "HD",
+            "ADBE", "CVX", "ASML",
+            "CSCO", "MRK", "KO", "TM",
+            "ABBV", "SNY", "BAC", "PEP",
+            "ANC", "CRM", "NFLX", "MCD",
+            "NVS", "LIN", "AMD", "AZN",
+            "BABA", "CSCO", "TMO", "INTC",
+            "SAP", "ABT", "DIS", "TMUS",
+            "PFE"));
+        choiceBox.setValue("AAPL");
+        choiceBox.setPrefSize(500, 0);
+        goButton = new Button("Go!");
+        goButton.setPrefSize(200, 0);
+        goButton.setOnAction(e -> handleGoButton());
+
+        topBox.getChildren().addAll(choiceBox, sep, goButton);
+
+        root.getChildren().addAll(topBox);
     } // ApiApp
 
     /** {@inheritDoc} */
@@ -31,18 +72,8 @@ public class ApiApp extends Application {
 
         this.stage = stage;
 
-        // demonstrate how to load local asset using "file:resources/"
-        Image bannerImage = new Image("file:resources/readme-banner.png");
-        ImageView banner = new ImageView(bannerImage);
-        banner.setPreserveRatio(true);
-        banner.setFitWidth(640);
-
-        // some labels to display information
-        Label notice = new Label("Modify the starter code to suit your needs.");
-
         // setup scene
-        root.getChildren().addAll(banner, notice);
-        scene = new Scene(root);
+        scene = new Scene(root, 600, 575);
 
         // setup stage
         stage.setTitle("ApiApp!");
@@ -50,7 +81,14 @@ public class ApiApp extends Application {
         stage.setOnCloseRequest(event -> Platform.exit());
         stage.sizeToScene();
         stage.show();
-
+        stage.setResizable(true);
     } // start
+
+    /**
+     * Handles the {@code goButton} action.
+     */
+    public void handleGoButton() {
+         String stock = choiceBox.getValue();
+    } // handleGoButton
 
 } // ApiApp
