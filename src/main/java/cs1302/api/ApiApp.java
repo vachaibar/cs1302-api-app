@@ -21,7 +21,12 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 
 /**
- * REPLACE WITH NON-SHOUTING DESCRIPTION OF YOUR APP.
+ * This app is used for getting current information about a stock.
+ * First, the user will choose a stock from a drop down menu and then press go.
+ * Then, the app will display the stock name, last trade, company peers, and news.
+ * The stock name and last trade are retrieved from the finage api.
+ * The company peers are retrieved from the finnhub api.
+ * The news is retrieved from the stockdata api.
  */
 public class ApiApp extends Application {
     Stage stage;
