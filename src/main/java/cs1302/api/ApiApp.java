@@ -68,11 +68,11 @@ public class ApiApp extends Application {
         topBox = new HBox(0);
         choiceBox = new ComboBox<>();
         choiceBox.setItems(FXCollections.observableArrayList(
-            "AAPL", "ABBV", "ABT", "ADBE", "ANC", "ASML", "AZN", "BABA", "BAC", "BRK-A",
-            "CSCO", "CSCO", "CVX", "DIS", "GOOGL", "HD", "INTC", "JNJ", "JPM", "KO",
-            "LLY", "MA", "MCD", "META", "MRK", "MSFT", "NFLX", "NVO", "NVDA", "ORCL",
-            "PFE", "PEP", "PG", "SAP", "SNY", "TMO", "TM", "TMUS", "TSLA", "UNH", "V",
-            "WMT", "XOM"));
+            "AAPL", "ABBV", "ABT", "ACN", "ADBE", "AMZN", "ASML", "AVGO", "AZN", "BABA",
+            "BAC", "BRK-A", "COST", "CSCO", "CRM", "CVX", "DIS", "GOOGL", "HD", "INTC",
+            "JNJ","JPM", "KO", "LLY", "MA", "MCD", "META", "MRK", "MSFT", "NFLX",
+            "NKE", "NVDA", "ORCL", "PFE", "PEP", "PG", "PYPL", "SAP", "SNAP", "SNY",
+            "TM", "TMO", "TMUS", "TSLA", "TWTR", "UNH", "UBER", "V","WMT", "XOM"));
         choiceBox.setValue("AAPL");
         choiceBox.setPrefSize(500, 0);
         choiceBox.setVisibleRowCount(5);
