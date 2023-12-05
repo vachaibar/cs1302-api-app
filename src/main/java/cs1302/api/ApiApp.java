@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Button;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
@@ -30,7 +30,7 @@ public class ApiApp extends Application {
     Separator sep;
 
     HBox topBox;
-    ChoiceBox<String> choiceBox;
+    ComboBox<String> choiceBox;
     Button goButton;
 
     VBox labelBox;
@@ -61,15 +61,16 @@ public class ApiApp extends Application {
         sep = new Separator();
         sep.setStyle("-fx-padding: 10px");
         topBox = new HBox(0);
-        choiceBox = new ChoiceBox<>();
+        choiceBox = new ComboBox<>();
         choiceBox.setItems(FXCollections.observableArrayList(
-            "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "BRK-A", "TSLA", "LLY", "V",
-            "TSM", "UNH", "JPM", "WMT", "XOM", "AVGO", "MA", "JNJ", "NVO", "PG", "ORCL", "HD",
-            "ADBE", "CVX", "ASML", "CSCO", "MRK", "KO", "TM", "ABBV", "SNY", "BAC", "PEP",
-            "ANC", "CRM", "NFLX", "MCD", "NVS", "LIN", "AMD", "AZN", "BABA", "CSCO", "TMO", "INTC",
-            "SAP", "ABT", "DIS", "TMUS", "PFE"));
+            "AAPL", "ABBV", "ABT", "ADBE", "ANC", "ASML", "AZN", "BABA", "BAC", "BRK-A",
+            "CSCO", "CSCO", "CVX", "DIS", "GOOGL", "HD", "INTC", "JNJ", "JPM", "KO",
+            "LLY", "MA", "MCD", "META", "MRK", "MSFT", "NFLX", "NVO", "NVDA", "ORCL",
+            "PFE", "PEP", "PG", "SAP", "SNY", "TMO", "TM", "TMUS", "TSLA", "UNH", "V",
+            "WMT", "XOM"));
         choiceBox.setValue("AAPL");
         choiceBox.setPrefSize(500, 0);
+        choiceBox.setVisibleRowCount(5);
         goButton = new Button("Go!");
         goButton.setPrefSize(200, 0);
         goButton.setOnAction(e -> handleGoButton());
@@ -111,9 +112,7 @@ public class ApiApp extends Application {
         scrollPane.setFitToWidth(true);
         scrollPane.setPrefHeight(200);
         scrollPane.setPrefWidth(300);
-
         mainBox.getChildren().addAll(peersAndLastBox, scrollPane);
-
         root.getChildren().addAll(topBox, labelBox, mainBox);
     } // ApiApp
 
