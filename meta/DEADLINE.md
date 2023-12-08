@@ -5,7 +5,7 @@ deadline. Please keep this file organized using Markdown. If you click on
 this file in your GitHub repository website, then you will see that the
 Markdown is transformed into nice looking HTML.
 
-## Part 1: App Description
+## Part 1.1: App Description
 
 > Please provide a firendly description of your app, including the
 > the primary functions available to users of the app. Be sure to
@@ -31,6 +31,45 @@ streamlines the process of obtaining vital stock-related data in a
 user-friendly manner.
 
 GitHub Link: https://github.com/vachaibar/cs1302-api-app
+
+## Part 1.2: APIs
+
+> For each RESTful JSON API that your app uses (at least two are required),
+> include an example URL for a typical request made by your app. If you
+> need to include additional notes (e.g., regarding API keys or rate
+> limits), then you can do that below the URL/URI. Placeholders for this
+> information are provided below. If your app uses more than two RESTful
+> JSON APIs, then include them with similar formatting.
+
+### API 1
+
+```
+https://api.finage.co.uk/last/stock/ + stock + ?apikey= + API_KEY
+```
+
+> Used to get last trade information.
+> Api Key: API_KEYa7FAUEDJ1OS3EAWT5FY7TP8LSTX782YV
+> Api Requests: 1000 API requests per month. (488/1000)
+
+### API 2
+
+```
+https://finnhub.io/api/v1/stock/peers?symbol= + stock + &token= + API_KEY
+```
+
+> Used to get peer companies.
+> Api Key: clj21tpr01qsgccbq250clj21tpr01qsgccbq25g
+> Api Requests: 60 API calls per minute.
+
+### API 3
+
+```
+https://api.stockdata.org/v1/news/all?symbols= + stock + &filter_entities=true&language=en&api_token= + API_KEY + &limit=2
+```
+
+> Used to get news.
+> Api Key: oksHB7EmpVxb6HjkYxHNgltSoQDAECZLjg3chS96
+> Api Requests: 100 API calls per day.
 
 ## Part 2: New
 
